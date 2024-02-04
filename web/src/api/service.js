@@ -25,20 +25,34 @@ function createService () {
       // dataAxios 是 axios 返回数据中的 data
       const dataAxios = response.data
       // 这个状态码是和后端约定的
-      const { code } = dataAxios
-      // 根据 code 进行判断
-      if (code === undefined) {
+      const { errorCode } = dataAxios
+      // 根据 errorCode 进行判断
+      if (errorCode === undefined) {
         // 如果没有 code 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本
         return dataAxios
       } else {
-        // 有 code 代表这是一个后端接口 可以进行进一步的判断
-        switch (code) {
-          case 0:
-            // [ 示例 ] code === 0 代表没有错误
+        // 有 errorCode 代表这是一个后端接口 可以进行进一步的判断
+        switch (errorCode) {
+          case 200:
+            // [ 示例 ] errorCode === 200 代表没有错误
             return dataAxios.data
-          case 'xxx':
-            // [ 示例 ] 其它和后台约定的 code
-            errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+          case 10000:
+            errorCreate(`[ code: 10000 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 10001:
+            errorCreate(`[ code: 10001 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 10002:
+            errorCreate(`[ code: 10002 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 10003:
+            errorCreate(`[ code: 10003 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 10004:
+            errorCreate(`[ code: 10004 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 10005:
+            errorCreate(`[ code: 10005 ] ${dataAxios.msg}: ${response.config.url}`)
             break
           default:
             // 不是正确的 code
@@ -49,8 +63,11 @@ function createService () {
     },
     error => {
       const status = get(error, 'response.status')
+      const data = get(error, 'response.data')
+      console.log(data)
       switch (status) {
-        case 400: error.message = '请求错误'; break
+        case 400:
+          error.message = data.msg; break
         case 401: error.message = '未授权，请登录'; break
         case 403: error.message = '拒绝访问'; break
         case 404: error.message = `请求地址出错: ${error.response.config.url}`; break

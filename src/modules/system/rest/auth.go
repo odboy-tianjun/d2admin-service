@@ -40,7 +40,12 @@ func (AuthController) Login(c *gin.Context) {
 	token := jwt.GenToken(json.Username)
 	redistool.Set(rediskey.AUTH_TOKEN+":"+json.Username, token, time.Hour*20)
 	context.SetUser(c, user)
-	c.JSON(http.StatusOK, resp.Success(token))
+	c.JSON(http.StatusOK, resp.Success(map[string]string{
+		"username": user.Username,
+		"uuid":     user.Uuid,
+		"name":     user.Name,
+		"token":    token,
+	}))
 }
 
 // Logout 退出

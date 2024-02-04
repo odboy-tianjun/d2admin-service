@@ -6,6 +6,8 @@ type User struct {
 	gorm.Model
 	Username string
 	Password string
+	Uuid     string
+	Name     string
 }
 
 func (User) TableName() string {

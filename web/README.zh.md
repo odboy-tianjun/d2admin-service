@@ -86,4 +86,9 @@ import { mapActions } from 'vuex'
 this.login()
 ```
 
+### 请求带token关键代码
+```text
+web/src/api/service.js
+```
+
 
