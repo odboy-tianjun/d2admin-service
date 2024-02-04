@@ -55,7 +55,7 @@ func RunServer() {
 	apiGroup := r.Group("/api/v1")
 	apiGroup.Use(jwt.AuthMiddleware())
 	{
-		routes := dao.RouterDao{}.GetAllRouter()
+		routes := dao.ApiDao{}.GetAllRouter()
 		for _, route := range routes {
 			if route.ApiMethod == "GET" {
 				apiGroup.GET(route.ApiPath, InnerRouters[route.ApiName])

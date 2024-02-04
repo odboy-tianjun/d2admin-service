@@ -5,10 +5,10 @@ import (
 	"d2-admin-service/src/modules/system/domain"
 )
 
-type RouterDao struct {
+type ApiDao struct {
 }
 
-func (RouterDao) GetAllRouter() []domain.Api {
+func (ApiDao) GetAllRouter() []domain.Api {
 	var routers []domain.Api
 	// select * from system_router where router_status = 1
 	database.DB.Model(domain.Api{ApiStatus: 1}).Find(&routers)
