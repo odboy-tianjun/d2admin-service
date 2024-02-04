@@ -20,6 +20,7 @@ export default {
         value: info,
         user: true
       }, { root: true })
+      console.log("================ 配置用户信息")
     },
     /**
      * @description 从数据库取用户数据

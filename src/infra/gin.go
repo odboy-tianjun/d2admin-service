@@ -57,12 +57,12 @@ func RunServer() {
 	{
 		routes := dao.RouterDao{}.GetAllRouter()
 		for _, route := range routes {
-			if route.RouterMethod == "GET" {
-				apiGroup.GET(route.RouterPath, InnerRouters[route.RouterName])
+			if route.ApiMethod == "GET" {
+				apiGroup.GET(route.ApiPath, InnerRouters[route.ApiName])
 				continue
 			}
-			if route.RouterMethod == "POST" {
-				apiGroup.POST(route.RouterPath, InnerRouters[route.RouterName])
+			if route.ApiMethod == "POST" {
+				apiGroup.POST(route.ApiPath, InnerRouters[route.ApiName])
 			}
 		}
 	}
