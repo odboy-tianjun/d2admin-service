@@ -1,37 +1,28 @@
 # d2admin-service
 
-#### 介绍
-前端：https://gitee.com/d2-projects/d2-admin-start-kit，后端从零开始。无依赖Casbin，无二次封装，适合学习。
+#### Description
+前端：https://gitee.com/d2-projects/d2-admin-start-kit
+后端从零开始。无依赖Casbin，无二次封装，适合学习。
 
-#### 软件架构
-软件架构说明
+### 文档地址
+```text
+# gin
+https://gin-gonic.com/docs/quickstart
+# gorm
+https://gorm.io/zh_CN/docs/index.html
+```
+### golang版本
+```text
+go1.21.5 darwin/amd64
+```
 
+### 安装依赖并启动
+```bash
+go mod tidy
+go run main.go
+```
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+### 构建
+```bash
+go build -o d2admin-service
+```
