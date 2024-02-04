@@ -17,6 +17,12 @@ https://gin-gonic.com/docs/quickstart
 https://gorm.io/zh_CN/docs/index.html
 ```
 
+### 结构说明
+```text
+1、所有API接口必须在"src/infra/bind_api.go"上定义与"gin.HandlerFunc"的绑定关系
+2、所有API接口必须在"system_router"表中定义
+```
+
 ### golang版本
 
 ```text
