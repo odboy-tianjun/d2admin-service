@@ -39,4 +39,5 @@ func Connect() {
 	// 自动建表
 	DB.AutoMigrate(&domain.User{})
 	DB.AutoMigrate(&domain.Router{})
+	DB.AutoMigrate(&domain.Menu{})
 }

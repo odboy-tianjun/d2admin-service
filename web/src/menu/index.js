@@ -16,30 +16,30 @@ function supplementPath (menu) {
 }
 
 export const menuHeader = supplementPath([
-  { path: '/index', title: '首页', icon: 'home' },
-  {
-    title: '页面',
-    icon: 'folder-o',
-    children: [
-      { path: '/page1', title: '页面 1' },
-      { path: '/page2', title: '页面 2' },
-      {
-        path: '/page3',
-        title: '页面 3',
-        children: [
-          { path: '/page3-1', title: '页面 3-1' },
-          {
-            path: '/page3-2',
-            title: '页面 3-2',
-            children: [
-              { path: '/page3-2-1', title: '页面 3-2-1' },
-              { path: '/page3-2-2', title: '页面 3-2-2' }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+  { path: '/index', title: '首页', icon: 'home' }
+  // {
+  //   title: '页面',
+  //   icon: 'folder-o',
+  //   children: [
+  //     { path: '/page1', title: '页面 1' },
+  //     { path: '/page2', title: '页面 2' },
+  //     {
+  //       path: '/page3',
+  //       title: '页面 3',
+  //       children: [
+  //         { path: '/page3-1', title: '页面 3-1' },
+  //         {
+  //           path: '/page3-2',
+  //           title: '页面 3-2',
+  //           children: [
+  //             { path: '/page3-2-1', title: '页面 3-2-1' },
+  //             { path: '/page3-2-2', title: '页面 3-2-2' }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 ])
 
 export const menuAside = supplementPath([
