@@ -91,4 +91,9 @@ this.login()
 web/src/api/service.js
 ```
 
+### 加载顺序
+```text
+router > api
+```
+
 

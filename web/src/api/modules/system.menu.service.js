@@ -5,7 +5,7 @@ export default ({ service, request, tools }) => ({
   queryAllMenus (data = {}) {
     // 接口请求
     return request({
-      url: '/queryAllMenus',
+      url: '/api/v1/queryAllMenus',
       method: 'post',
       data
     })

@@ -37,7 +37,11 @@ func (AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, resp.PasswordError)
 		return
 	}
-	token := jwt.GenToken(json.Username)
+	token, err := jwt.GenToken(json.Username)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, resp.SystemInnerError)
+		return
+	}
 	redistool.Set(rediskey.AUTH_TOKEN+":"+json.Username, token, time.Hour*20)
 	context.SetUser(c, user)
 	c.JSON(http.StatusOK, resp.Success(map[string]string{

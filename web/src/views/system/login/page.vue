@@ -119,8 +119,8 @@ export default {
       // 表单
       formLogin: {
         username: 'admin',
-        password: 'admin',
-        code: 'v9am'
+        password: 'admin'
+        // code: 'v9am'
       },
       // 表单校验
       rules: {
@@ -137,14 +137,14 @@ export default {
             message: '请输入密码',
             trigger: 'blur'
           }
-        ],
-        code: [
-          {
-            required: true,
-            message: '请输入验证码',
-            trigger: 'blur'
-          }
         ]
+        // code: [
+        //   {
+        //     required: true,
+        //     message: '请输入验证码',
+        //     trigger: 'blur'
+        //   }
+        // ]
       }
     }
   },
