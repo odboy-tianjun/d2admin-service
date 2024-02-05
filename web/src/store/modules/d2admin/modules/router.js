@@ -22,7 +22,6 @@ export default {
       if (!focus && state.isLoaded) return
       // 获取接口原始数据
       const menuTree = await api.queryAllMenus({})
-      console.log('=================== loadXXXXXX')
       // [ 菜单 ] 计算菜单
       const menuData = flushMenus(menuTree)
       const menus = supplementPath(menuData)
