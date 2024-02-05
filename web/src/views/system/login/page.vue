@@ -175,8 +175,7 @@ export default {
           // 具体需要传递的数据请自行修改代码
           this.login({
             username: this.formLogin.username,
-            password: this.formLogin.password,
-            callback: this.loginSuccessCallback
+            password: this.formLogin.password
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径
@@ -187,41 +186,6 @@ export default {
           this.$message.error('表单校验失败，请检查')
         }
       })
-    },
-    loginSuccessCallback (menuTree) {
-      let menuData = [{ path: '/index', title: '首页', icon: 'home' }]
-      // 权限菜单
-      const d2adminMenus = []
-      if (menuTree && menuTree.length > 0) {
-        for (const menuItem of menuTree) {
-          console.log('=============== menuItem ', menuItem)
-          let menuTemp
-          // 一级
-          if (menuItem.menuPath) {
-            menuTemp = { id: menuItem.id, title: menuItem.menuTitle, ico: menuItem.menuIcon, path: menuItem.menuPath }
-          } else {
-            // path不能为undefined会报错, 详情看源码'src/layout/header-aside/components/libs/util.menu.js'
-            menuTemp = { id: menuItem.id, title: menuItem.menuTitle, ico: menuItem.menuIcon, path: '' }
-          }
-          // 二级
-          const children = menuItem.children;
-          if (children && children.length > 0) {
-            for (const childrenMenuItem of children) {
-              const childrenMenuTemp = { id: menuItem.id, title: childrenMenuItem.menuTitle, ico: childrenMenuItem.menuIcon, path: childrenMenuItem.menuPath }
-              if (menuTemp.children && menuTemp.children.length > 0) {
-                menuTemp.children.push(childrenMenuTemp)
-              } else {
-                menuTemp.children = []
-                menuTemp.children.push(childrenMenuTemp)
-              }
-            }
-          }
-          d2adminMenus.push(menuTemp)
-        }
-      }
-      // 拼合菜单
-      menuData = menuData.concat(d2adminMenus)
-      this.$store.commit('d2admin/menu/asideSet', menuData)
     }
   }
 }
