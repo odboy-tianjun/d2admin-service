@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"d2-admin-service/src/infra/config"
+	"errors"
 	"github.com/fatih/color"
 	"github.com/golang-jwt/jwt/v4"
 	"time"
@@ -14,60 +15,46 @@ type CustomClaims struct {
 }
 
 // GenToken 生成token
-func GenToken(username string) string {
-	secret := config.Config.Jwt.Secret
-	// 私钥（用于HS256签名时用作secret，对于RS256等非对称算法则是私钥）
-	key := []byte(secret)
-
-	// 生成claims
-	claims := &CustomClaims{
+func GenToken(username string) (tokenString string, err error) {
+	secret := []byte(config.Config.Jwt.Secret)
+	claim := CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "odboy.cn",
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)), // 设置过期时间
-			Subject:   username,                                           // 用户ID或其他唯一标识符
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(3 * time.Hour * time.Duration(1))), // 过期时间3小时
+			IssuedAt:  jwt.NewNumericDate(time.Now()),                                       // 签发时间
+			NotBefore: jwt.NewNumericDate(time.Now()),                                       // 生效时间
 		},
 		Username: username,
 	}
-
-	// 创建一个新的token对象
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	// 使用密钥进行签名并获取完整的编码后的token
-	signedToken, err := token.SignedString(key)
-	if err != nil {
-		panic("Generated JWT Error: " + err.Error())
-	}
-	color.Green("%s Generated JWT: %s\n", username, signedToken)
-	return signedToken
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim) // 使用HS256算法
+	tokenString, err = token.SignedString(secret)
+	color.Green("%s Generated JWT: %s\n", username, tokenString)
+	return tokenString, err
 }
 
-// ParseToken 解析token
-func ParseToken(signedToken string) (int, *CustomClaims) {
-	// 解析JWT
-	parser := jwt.Parser{}
-	// 需要设置Valid方法以验证claims中的标准字段，例如ExpiresAt
-	var parsedClaims *CustomClaims // 将parsedClaims声明为指针类型
-	_, _, err := parser.ParseUnverified(signedToken, parsedClaims)
+func getSecret() jwt.Keyfunc {
+	return func(token *jwt.Token) (interface{}, error) {
+		return []byte(config.Config.Jwt.Secret), nil
+	}
+}
+
+func ParseToken(tokenString string) (*CustomClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, getSecret())
 	if err != nil {
-		//panic("无效Token" + err.Error())
-		color.Red("无效token, %v\n", err)
-		return -1, nil
+		var ve *jwt.ValidationError
+		if errors.As(err, &ve) {
+			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+				return nil, errors.New("that's not even a token")
+			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
+				return nil, errors.New("token is expired")
+			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
+				return nil, errors.New("token not active yet")
+			} else {
+				return nil, errors.New("couldn't handle this token")
+			}
+		}
 	}
-	// 如果需要验证签名，请使用正确的秘钥和方法
-	secret := config.Config.Jwt.Secret
-	key := []byte(secret)
-	verifiedToken, err := parser.Parse(signedToken, func(token *jwt.Token) (interface{}, error) {
-		return key, nil
-	})
-	if err != nil {
-		color.Red("无效token, %v\n", err)
-		return -1, nil
+	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
+		return claims, nil
 	}
-	parsedClaims, ok := verifiedToken.Claims.(*CustomClaims)
-	if !ok || !verifiedToken.Valid {
-		//panic("Invalid token")
-		color.Red("token未通过校验, %v\n", err)
-		return -1, nil
-	}
-	return 200, parsedClaims
+	return nil, errors.New("couldn't handle this token")
 }

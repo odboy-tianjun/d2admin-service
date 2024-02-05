@@ -15,13 +15,14 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		color.Green("============ 进入鉴权中间件 ============")
 		token := c.Request.Header.Get("Authorization")
+		color.Green("JWT Token: %s", token)
 		if util.IsBlank(token) {
 			c.JSON(http.StatusUnauthorized, resp.NoLoginError)
 			c.Abort()
 			return
 		}
 		color.Green("============ 解析token ============")
-		if code, claims := ParseToken(token); code == -1 {
+		if claims, err := ParseToken(token); err != nil {
 			c.JSON(http.StatusUnauthorized, resp.NoLoginError)
 			c.Abort()
 		} else {
