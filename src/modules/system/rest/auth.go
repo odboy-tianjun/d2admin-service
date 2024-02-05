@@ -7,7 +7,7 @@ import (
 	"d2-admin-service/src/infra/redistool"
 	"d2-admin-service/src/infra/resp"
 	"d2-admin-service/src/modules/system/dao"
-	"d2-admin-service/src/modules/system/rest/dto"
+	dto2 "d2-admin-service/src/modules/system/domain/dto"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -21,7 +21,7 @@ func (AuthController) Login(c *gin.Context) {
 	userDao := dao.UserDao{}
 
 	// 声明接收的变量
-	var json dto.LoginDTO
+	var json dto2.LoginDTO
 	// 将request的body中的数据，自动按照json格式解析到结构体
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, resp.ResolveParamsError)
@@ -62,7 +62,7 @@ func (AuthController) KickOut(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, resp.NoOperationPermissionError)
 		return
 	}
-	var json dto.KickOutDTO
+	var json dto2.KickOutDTO
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, resp.ResolveParamsError)
 		return

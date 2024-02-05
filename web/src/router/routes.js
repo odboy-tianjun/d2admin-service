@@ -74,7 +74,7 @@ const frameIn = [
           auth: true
         },
         component: _import('demo/page3')
-      },
+      }
     ]
   }
 ]

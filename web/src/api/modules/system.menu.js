@@ -1,12 +1,11 @@
 export default ({ service, request, tools }) => ({
   /**
-   * @description 登录
-   * @param {Object} data 登录携带的信息
+   * @description 获取所有菜单
    */
-  login (data = {}) {
+  queryAllMenus (data = {}) {
     // 接口请求
     return request({
-      url: '/login',
+      url: '/queryAllMenus',
       method: 'post',
       data
     })

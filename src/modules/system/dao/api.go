@@ -8,9 +8,9 @@ import (
 type ApiDao struct {
 }
 
-func (ApiDao) GetAllRouter() []domain.Api {
-	var routers []domain.Api
-	// select * from system_router where router_status = 1
-	database.DB.Model(domain.Api{ApiStatus: 1}).Find(&routers)
-	return routers
+func (ApiDao) GetAllApi() []domain.Api {
+	var apis []domain.Api
+	// select * from system_api where api_status = 1
+	database.DB.Model(domain.Api{ApiStatus: 1}).Find(&apis)
+	return apis
 }

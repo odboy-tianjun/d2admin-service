@@ -8,7 +8,7 @@ type Api struct {
 	ApiPath   string `gorm:"not null;unique_index:index_npm"` // 接口路径, 例如: /api/v1/getUser
 	ApiMethod string `gorm:"not null;unique_index:index_npm"` // GET、POST
 	ApiDesc   string `gorm:"not null"`                        // 接口说明
-	ApiStatus int    `gorm:"not null"`                        // 接口是否可用
+	ApiStatus uint   `gorm:"not null"`                        // 接口是否可用
 }
 
 func (Api) TableName() string {

@@ -27,7 +27,7 @@ export default {
       util.cookies.set('username', res.username)
       util.cookies.set('name', res.name)
       util.cookies.set('token', res.token)
-      console.log("=============== 设置用户token")
+      console.log('=============== 设置用户token')
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.name }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置
