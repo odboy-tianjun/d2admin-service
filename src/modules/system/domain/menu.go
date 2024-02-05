@@ -12,6 +12,7 @@ type Menu struct {
 	RouterName          string `gorm:"not null" json:"routerName"`
 	RouterAuth          uint   `gorm:"not null" json:"routerAuth"`
 	RouterHidden        uint   `gorm:"not null" json:"routerHidden"`
+	RouterCache         uint   `gorm:"not null" json:"routerCache"`
 	RouterComponentPath string `gorm:"not null" json:"routerComponentPath"`
 }
 

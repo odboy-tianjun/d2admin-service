@@ -8,9 +8,8 @@ import d2Admin from '@/plugin/d2admin'
 import store from '@/store/index'
 
 // 菜单和路由设置
-import router from './router'
-import { frameInRoutes } from '@/router/routes'
-import util from '@/libs/util'
+import router, {constantRoutes} from './router'
+
 import { uniqueId } from 'lodash'
 import api from '@/api'
 
@@ -22,7 +21,7 @@ Vue.use(d2Admin)
  * @description https://github.com/d2-projects/d2-admin/issues/209
  * @param {Array} menu 原始的菜单数据
  */
-function supplementPath (menu) {
+export function supplementPath (menu) {
   return menu.map(e => ({
     ...e,
     path: e.path || uniqueId('d2-menu-empty-'),
@@ -32,10 +31,13 @@ function supplementPath (menu) {
   }))
 }
 
+/**
+ * 设置菜单
+ * @returns {Promise<{path: string, icon: string, title: string}[]|[{path: string, icon: string, title: string}]>}
+ */
 async function flushMenus () {
   let menuData = [{ path: '/index', title: '首页', icon: 'home' }]
   try {
-    console.log('========= 设置菜单 ======== ')
     const menuTree = await api.queryAllMenus({})
     // 权限菜单
     const d2adminMenus = []
@@ -79,11 +81,6 @@ async function flushMenus () {
   }
 }
 
-async function flushRouter(){
-  const menuTree = await api.queryAllMenus({})
-  // 权限路由
-}
-
 new Vue({
   router,
   store,
@@ -93,6 +90,7 @@ new Vue({
     console.log('=========================== app created ===========================')
     const _this = this
     flushMenus().then((data) => {
+      console.log('=========================== app handle menu ===========================')
       // 设置顶栏菜单
       _this.$store.commit('d2admin/menu/headerSet', supplementPath([]))
       // 设置侧边栏菜单
@@ -100,10 +98,7 @@ new Vue({
       // 初始化菜单搜索功能
       _this.$store.commit('d2admin/search/init', supplementPath(data))
     })
-    flushRouter().then((data) => {
-      // 处理路由 得到每一级的路由设置
-      _this.$store.commit('d2admin/page/init', frameInRoutes)
-    })
+    _this.$store.commit('d2admin/page/init', constantRoutes)
   },
   mounted () {
     console.log('=========================== app mounted ===========================')
