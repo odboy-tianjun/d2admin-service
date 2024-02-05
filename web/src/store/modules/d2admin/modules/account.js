@@ -5,6 +5,10 @@ import api from '@/api'
 
 export default {
   namespaced: true,
+  state: {
+    // 用户登录状态
+    isLogged: !!util.cookies.get('token')
+  },
   actions: {
     /**
      * @description 登录
@@ -13,10 +17,7 @@ export default {
      * @param {Object} payload password {String} 密码
      * @param {Object} payload route {Object} 登录成功后定向的路由对象 任何 vue-router 支持的格式
      */
-    async login ({ dispatch }, {
-      username = '',
-      password = ''
-    } = {}) {
+    async login ({ commit, dispatch }, { username = '', password = '', to = '/' } = {}) {
       const res = await api.login({ username, password })
       // 设置 cookie 一定要存 uuid 和 token 两个 cookie
       // 整个系统依赖这两个数据进行校验和存储
@@ -27,10 +28,10 @@ export default {
       util.cookies.set('username', res.username)
       util.cookies.set('name', res.name)
       util.cookies.set('token', res.token)
-      // 设置路由菜单
-      console.log('========= 设置路由菜单')
-      const menuTree = await api.queryAllMenus({})
-      console.log('========= ', menuTree)
+      // 设置用户已经登陆
+      commit('isLoggedSet', true)
+      // 加载路由权限
+      await dispatch('d2admin/router/load', { focus: true, to }, { root: true })
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.name }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置

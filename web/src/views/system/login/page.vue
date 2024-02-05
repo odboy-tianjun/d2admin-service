@@ -175,12 +175,12 @@ export default {
           // 具体需要传递的数据请自行修改代码
           this.login({
             username: this.formLogin.username,
-            password: this.formLogin.password
+            password: this.formLogin.password,
+            to: this.$route.query.redirect || '/'
+          }).then(() => {
+            // 重定向对象不存在则返回顶层路径
+            this.$router.replace(this.$route.query.redirect || '/')
           })
-            .then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
-            })
         } else {
           // 登录表单校验失败
           this.$message.error('表单校验失败，请检查')
