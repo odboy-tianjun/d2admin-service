@@ -9,11 +9,26 @@ import store from '@/store/index'
 
 // 菜单和路由设置
 import router from './router'
-import { menuHeader, menuAside } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
+import { uniqueId } from 'lodash'
 
 // 核心插件
 Vue.use(d2Admin)
+
+/**
+ * @description 给菜单数据补充上 path 字段
+ * @description https://github.com/d2-projects/d2-admin/issues/209
+ * @param {Array} menu 原始的菜单数据
+ */
+function supplementPath (menu) {
+  return menu.map(e => ({
+    ...e,
+    path: e.path || uniqueId('d2-menu-empty-'),
+    ...e.children ? {
+      children: supplementPath(e.children)
+    } : {}
+  }))
+}
 
 new Vue({
   router,
@@ -24,9 +39,9 @@ new Vue({
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes)
     // 设置顶栏菜单
-    this.$store.commit('d2admin/menu/headerSet', menuHeader)
+    this.$store.commit('d2admin/menu/headerSet', supplementPath([]))
     // 设置侧边栏菜单
-    this.$store.commit('d2admin/menu/asideSet', menuAside)
+    this.$store.commit('d2admin/menu/asideSet', supplementPath([]))
     // 初始化菜单搜索功能
     this.$store.commit('d2admin/search/init', menuHeader)
   },

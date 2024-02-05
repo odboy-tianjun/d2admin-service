@@ -3,6 +3,9 @@ import menuMixin from '../mixin/menu'
 import { createMenu } from '../libs/util.menu'
 import BScroll from 'better-scroll'
 
+/**
+ * 渲染侧栏菜单
+ */
 export default {
   name: 'd2-layout-header-aside-menu-side',
   mixins: [

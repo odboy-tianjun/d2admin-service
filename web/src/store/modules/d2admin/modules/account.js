@@ -16,7 +16,7 @@ export default {
     async login ({ dispatch }, {
       username = '',
       password = '',
-      callback = (defaultMenu, menuTree) => {}
+      callback = (menuTree) => {}
     } = {}) {
       const res = await api.login({ username, password })
       // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -30,9 +30,8 @@ export default {
       util.cookies.set('token', res.token)
       // 设置路由菜单
       console.log('========= 设置菜单 ======== ')
-      const defaultMenu = [{ path: '/index', title: '首页', icon: 'home' }]
       const menuTree = await api.queryAllMenus({})
-      callback(defaultMenu, menuTree)
+      callback(menuTree)
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.name }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置

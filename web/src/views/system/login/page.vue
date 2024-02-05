@@ -188,21 +188,26 @@ export default {
         }
       })
     },
-    loginSuccessCallback (defaultMenu, menuTree) {
-      let menuData = []
-      const rootMenu = []
+    loginSuccessCallback (menuTree) {
+      let menuData = [{ path: '/index', title: '首页', icon: 'home' }]
+      // 权限菜单
+      const d2adminMenus = []
       if (menuTree && menuTree.length > 0) {
-        for (const menuItem in menuTree) {
+        for (const menuItem of menuTree) {
+          console.log('=============== menuItem ', menuItem)
           let menuTemp
-          // 暂时只解析两层
+          // 一级
           if (menuItem.menuPath) {
-            menuTemp = { title: menuItem.menuTitle, ico: menuItem.menuIcon, path: menuItem.menuPath }
+            menuTemp = { id: menuItem.id, title: menuItem.menuTitle, ico: menuItem.menuIcon, path: menuItem.menuPath }
           } else {
-            menuTemp = { title: menuItem.menuTitle, ico: menuItem.menuIcon }
+            // path不能为undefined会报错, 详情看源码'src/layout/header-aside/components/libs/util.menu.js'
+            menuTemp = { id: menuItem.id, title: menuItem.menuTitle, ico: menuItem.menuIcon, path: '' }
           }
-          if (menuItem.children && menuItem.children.length > 0) {
-            for (const childrenMenuItem in menuItem.children) {
-              const childrenMenuTemp = { title: childrenMenuItem.menuTitle, ico: childrenMenuItem.menuIcon, path: childrenMenuItem.menuPath }
+          // 二级
+          const children = menuItem.children;
+          if (children && children.length > 0) {
+            for (const childrenMenuItem of children) {
+              const childrenMenuTemp = { id: menuItem.id, title: childrenMenuItem.menuTitle, ico: childrenMenuItem.menuIcon, path: childrenMenuItem.menuPath }
               if (menuTemp.children && menuTemp.children.length > 0) {
                 menuTemp.children.push(childrenMenuTemp)
               } else {
@@ -211,11 +216,11 @@ export default {
               }
             }
           }
-          rootMenu.push(menuTemp)
+          d2adminMenus.push(menuTemp)
         }
       }
-      menuData = menuData.concat(defaultMenu)
-      menuData = menuData.concat(rootMenu)
+      // 拼合菜单
+      menuData = menuData.concat(d2adminMenus)
       this.$store.commit('d2admin/menu/asideSet', menuData)
     }
   }
