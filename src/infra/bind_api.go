@@ -27,7 +27,7 @@ func init() {
 
 	// 菜单
 	menuApi := rest.MenuController{}
-	InnerRouters["menus"] = menuApi.TreeMenu
+	InnerRouters["queryAllMenus"] = menuApi.TreeMenu
 	InnerRouters["createMenu"] = menuApi.CreateMenu
 	InnerRouters["deleteMenu"] = menuApi.DeleteMenu
 	InnerRouters["modifyMenu"] = menuApi.ModifyMenu
