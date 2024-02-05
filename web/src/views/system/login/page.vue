@@ -175,7 +175,8 @@ export default {
           // 具体需要传递的数据请自行修改代码
           this.login({
             username: this.formLogin.username,
-            password: this.formLogin.password
+            password: this.formLogin.password,
+            callback: this.loginSuccessCallback
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径
@@ -186,6 +187,36 @@ export default {
           this.$message.error('表单校验失败，请检查')
         }
       })
+    },
+    loginSuccessCallback (defaultMenu, menuTree) {
+      let menuData = []
+      const rootMenu = []
+      if (menuTree && menuTree.length > 0) {
+        for (const menuItem in menuTree) {
+          let menuTemp
+          // 暂时只解析两层
+          if (menuItem.menuPath) {
+            menuTemp = { title: menuItem.menuTitle, ico: menuItem.menuIcon, path: menuItem.menuPath }
+          } else {
+            menuTemp = { title: menuItem.menuTitle, ico: menuItem.menuIcon }
+          }
+          if (menuItem.children && menuItem.children.length > 0) {
+            for (const childrenMenuItem in menuItem.children) {
+              const childrenMenuTemp = { title: childrenMenuItem.menuTitle, ico: childrenMenuItem.menuIcon, path: childrenMenuItem.menuPath }
+              if (menuTemp.children && menuTemp.children.length > 0) {
+                menuTemp.children.push(childrenMenuTemp)
+              } else {
+                menuTemp.children = []
+                menuTemp.children.push(childrenMenuTemp)
+              }
+            }
+          }
+          rootMenu.push(menuTemp)
+        }
+      }
+      menuData = menuData.concat(defaultMenu)
+      menuData = menuData.concat(rootMenu)
+      this.$store.commit('d2admin/menu/asideSet', menuData)
     }
   }
 }

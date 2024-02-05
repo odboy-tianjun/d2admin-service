@@ -96,4 +96,45 @@ web/src/api/service.js
 router > api
 ```
 
+### store 例子
+```vue
+// store/index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+ state: {
+   count: 0,
+   // 其他状态...
+ },
+ mutations: {
+   increment(state) {
+     state.count++
+   },
+   // 其他 mutation 函数...
+ },
+ actions: {
+   // 可能包含异步操作的 action 函数...
+ },
+ getters: {
+   getCount: state => state.count,
+   // 其他 getter 函数...
+ }
+})
+```
+```vue
+// 在任何一个 Vue 组件中，你就可以通过 this.$store 访问 Vuex store
+// 任意Vue组件内部
+export default {
+    mounted() {
+        console.log(this.$store.state.count) // 访问状态
+        this.$store.commit('increment') // 提交 mutation 更新状态
+        this.$store.dispatch('someAction') // 分发 action
+        const count = this.$store.getters.getCount // 获取 getter 数据
+    }
+}
+```
+
 
