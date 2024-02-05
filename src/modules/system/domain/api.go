@@ -1,9 +1,8 @@
 package domain
 
-import "github.com/jinzhu/gorm"
-
+// Api API接口
 type Api struct {
-	gorm.Model
+	BaseDomain
 	ApiName   string `gorm:"not null;unique_index:index_npm"` // 接口名称, 例如: getUser
 	ApiPath   string `gorm:"not null;unique_index:index_npm"` // 接口路径, 例如: /api/v1/getUser
 	ApiMethod string `gorm:"not null;unique_index:index_npm"` // GET、POST

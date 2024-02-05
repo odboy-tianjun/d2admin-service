@@ -1,9 +1,7 @@
 package domain
 
-import "github.com/jinzhu/gorm"
-
 type Menu struct {
-	gorm.Model
+	BaseDomain
 	MenuParentId        uint   `gorm:"null" json:"menuParentId"`
 	MenuTitle           string `gorm:"not null" json:"menuTitle"`
 	MenuIcon            string `gorm:"not null;default:''" json:"menuIcon"`

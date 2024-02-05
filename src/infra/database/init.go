@@ -40,4 +40,9 @@ func Connect() {
 	DB.AutoMigrate(&domain.User{})
 	DB.AutoMigrate(&domain.Api{})
 	DB.AutoMigrate(&domain.Menu{})
+	DB.AutoMigrate(&domain.Role{})
+	DB.AutoMigrate(&domain.UserRole{})
+	DB.AutoMigrate(&domain.RoleApi{})
+	DB.AutoMigrate(&domain.RoleMenu{})
+	DB.AutoMigrate(&domain.Department{})
 }
