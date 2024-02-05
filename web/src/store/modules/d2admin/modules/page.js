@@ -369,6 +369,7 @@ export default {
       state.current = fullPath
     },
     /**
+     * 路由池
      * @class pool
      * @description 保存 pool (候选池)
      * @param {Object} state state
@@ -378,6 +379,7 @@ export default {
       const pool = []
       const push = function (routes) {
         routes.forEach(route => {
+          console.log('=========================== app handle router ===========================', route)
           if (route.children && route.children.length > 0) {
             push(route.children)
           } else {
