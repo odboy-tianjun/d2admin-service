@@ -113,11 +113,11 @@ export function resetRouter (routes = []) {
 router.beforeEach(async (to, from, next) => {
   // 进度条
   NProgress.start()
-  console.log('即将进入的路由:', to);
-  console.log('当前离开的路由:', from);
+  console.log('即将进入的路由:', to)
+  console.log('当前离开的路由:', from)
   // 获取路由参数或查询参数
-  console.log('路由参数:', to.params);
-  console.log('查询参数:', to.query);
+  console.log('路由参数:', to.params)
+  console.log('查询参数:', to.query)
   // 确认已经加载多标签页数据 https://github.com/d2-projects/d2-admin/issues/201
   await store.dispatch('d2admin/page/isLoaded')
   // 确认已经加载组件尺寸设置 https://github.com/d2-projects/d2-admin/issues/198
